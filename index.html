@@ -1,0 +1,235 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indian Diabetes Risk Score (IDRS) - Self Assessment</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    font-size: 16px;
+    background: linear-gradient(to bottom right, #e6f2ff, #ffffff);
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><path d="M40,10 C50,10 50,30 40,30 C30,30 30,10 40,10 Z M40,30 L40,70" stroke="%23cccccc" stroke-width="2" fill="none" opacity="0.05"/></svg>');
+    background-repeat: repeat;
+    background-position: center;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    max-width: 1000px;
+    margin: auto;
+    align-items: flex-start;
+}
+
+.form-container, .result-container {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Align the result box with the first input field */
+.result-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 35px; /* Adjust to match first input */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+label {
+    margin-top: 15px;
+    font-weight: bold;
+}
+select, input, button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+button {
+    margin-top: 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Result box hidden initially */
+.result-box {
+    display: none;
+    padding: 15px;
+    font-size: 16px;
+    white-space: pre-line;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Badge styling */
+.badge {
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+}
+.low { background-color: #d4edda; color: green; }
+.moderate { background-color: #fff3cd; color: orange; }
+.high { background-color: #f8d7da; color: red; }
+
+/* Legend styling */
+.legend {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 10px;
+}
+.legend-row {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    min-width: 180px;
+}
+.legend-row.low { background-color: #d4edda; color: green; }
+.legend-row.moderate { background-color: #fff3cd; color: orange; }
+.legend-row.high { background-color: #f8d7da; color: red; }
+.legend-range { width: 60px; }
+.legend-text { flex: 1; }
+</style>
+</head>
+<body>
+<h2>Indian Diabetes Risk Score (IDRS) - Self Assessment</h2>
+
+<div class="container">
+    <div class="form-container">
+        <form id="idrsForm">
+            <label>1. What is your age?</label>
+            <select id="age">
+                <option value="">-- choose --</option>
+                <option value="0"><35 years</option>
+                <option value="20">35-49 years</option>
+                <option value="30">≥50 years</option>
+            </select>
+
+            <label>2. What is your Gender?</label>
+            <select id="gender" onchange="updateWaistOptions()">
+                <option value="">-- choose --</option>
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+
+            <label>3. What is your waist circumference (CM)?</label>
+            <select id="waist">
+                <option value="">-- choose --</option>
+            </select>
+
+            <label>4. What is your level of physical activity?</label>
+            <select id="activity">
+                <option value="">-- choose --</option>
+                <option value="0">Regular exercise + Strenuous work</option>
+                <option value="10">Regular exercise or Strenuous work</option>
+                <option value="20">No exercise & Sedentary work</option>
+            </select>
+
+            <label>5. Do you have a family history of diabetes?</label>
+            <select id="family">
+                <option value="">-- choose --</option>
+                <option value="0">No diabetes in parents</option>
+                <option value="10">One parent diabetic</option>
+                <option value="20">Both parents diabetic</option>
+            </select>
+
+            <button type="button" onclick="calculateRisk()">Submit</button>
+        </form>
+    </div>
+
+    <div class="result-container">
+        <div id="result" class="result-box"></div>
+    </div>
+</div>
+
+<script>
+function updateWaistOptions() {
+    const gender = document.getElementById("gender").value;
+    const waist = document.getElementById("waist");
+    waist.innerHTML = '<option value="">-- choose --</option>';
+    if (gender === "Male") {
+        waist.innerHTML += `
+            <option value="0"><90 cm</option>
+            <option value="10">90-99 cm</option>
+            <option value="20">≥100 cm</option>
+        `;
+    } else if (gender === "Female") {
+        waist.innerHTML += `
+            <option value="0"><80 cm</option>
+            <option value="10">80-89 cm</option>
+            <option value="20">≥90 cm</option>
+        `;
+    }
+}
+
+function calculateRisk() {
+    const age = document.getElementById("age").value;
+    const waist = document.getElementById("waist").value;
+    const activity = document.getElementById("activity").value;
+    const family = document.getElementById("family").value;
+
+    if (!age || !waist || !activity || !family) {
+        alert("Please select all input parameters before submitting.");
+        return;
+    }
+
+    const total = parseInt(age) + parseInt(waist) + parseInt(activity) + parseInt(family);
+
+    let riskLevel = "";
+    let riskClass = "";
+    if (total < 30) {
+        riskLevel = "Low Risk";
+        riskClass = "low";
+    } else if (total >= 30 && total <= 50) {
+        riskLevel = "Moderate Risk";
+        riskClass = "moderate";
+    } else if (total >= 60) {
+        riskLevel = "High Risk";
+        riskClass = "high";
+    }
+
+    const resultDiv = document.getElementById("result");
+    resultDiv.style.display = "block";
+    resultDiv.innerHTML =
+        `<b>Thank you for completing the IDRS</b>\n\n` +
+        `Your Risk Level: <span class="badge ${riskClass}">${riskLevel}</span> (Score: ${total})\n\n` +
+        `<b>Risk Levels:</b>\n` +
+        `<div class="legend">
+            <div class="legend-row low"><span class="legend-range"><30</span><span class="legend-text">→ Low Risk</span></div>
+            <div class="legend-row moderate"><span class="legend-range">30-50</span><span class="legend-text">→ Moderate Risk</span></div>
+            <div class="legend-row high"><span class="legend-range">≥60</span><span class="legend-text">→ High Risk</span></div>
+        </div>\n\n` +
+        `<b>For further advice, please contact your doctor.</b>\n\n` +
+        `<div style="text-align:center;">***This program has been developed by <b>Dr. Vigneshwaran</b> Metabolic and Wellness Physician***<br>` +
+        `<b>Contact No:</b> +91-9345471232</div>`;
+}
+
+// Initialize waist options
+updateWaistOptions();
+</script>
+</body>
+</html>
