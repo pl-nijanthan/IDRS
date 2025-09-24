@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -9,124 +9,174 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
-    font-size: 16px;
-    background: linear-gradient(to bottom right, #e6f2ff, #ffffff);
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><path d="M40,10 C50,10 50,30 40,30 C30,30 30,10 40,10 Z M40,30 L40,70" stroke="%23cccccc" stroke-width="2" fill="none" opacity="0.05"/></svg>');
-    background-repeat: repeat;
-    background-position: center;
+    /* Fallback background color */
+    background-color: #f5f5f5;
+    /* Stable professional healthcare background */
+    background-image: url('https://images.unsplash.com/photo-1588776814546-21bb8057b5f6?auto=format&fit=crop&w=1950&q=80');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #333;
 }
 
+/* Page heading */
 h2 {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    color: #004080;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    font-size: 1.8rem;
 }
 
+/* Container */
 .container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     max-width: 1000px;
     margin: auto;
-    align-items: flex-start;
 }
 
+/* Form & Result cards */
 .form-container, .result-container {
-    flex: 1 1 300px; /* responsive flex */
-    min-width: 280px;
+    flex: 1 1 45%;
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    box-sizing: border-box;
 }
 
-/* Align the result box with the first input field */
+/* HIDE RESULT INITIALLY */
 .result-container {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: flex-start;
-    margin-top: 35px; /* Adjust to match first input */
 }
 
+/* Form */
 form {
     display: flex;
     flex-direction: column;
 }
+
 label {
-    margin-top: 15px;
+    margin-top: 10px;
     font-weight: bold;
+    font-size: 0.95rem;
 }
+
+/* Input fields & button width matching 5th question */
 select, input, button {
-    width: 100%;
-    padding: 8px;
+    width: 46ch;       /* Matches longest question length */
+    max-width: 100%;   /* Ensures responsiveness */
+    padding: 10px;
     margin-top: 5px;
     font-size: 16px;
     border-radius: 5px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
 }
+
+/* Button */
 button {
-    margin-top: 20px;
-    background-color: #007BFF;
+    margin-top: 15px;
+    background: linear-gradient(to right, #007BFF, #0056b3);
     color: white;
     border: none;
     cursor: pointer;
     font-weight: bold;
+    transition: 0.3s;
 }
 button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(to right, #0056b3, #003f7f);
 }
 
-/* Result box hidden initially */
+/* Result box */
 .result-box {
-    display: none;
-    padding: 15px;
-    font-size: 16px;
+    padding: 10px;
+    font-size: 0.95rem;
     white-space: pre-line;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    line-height: 1.3;
 }
 
-/* Badge styling */
+/* Badge */
 .badge {
     font-weight: bold;
-    padding: 2px 6px;
+    padding: 3px 8px;
     border-radius: 4px;
     display: inline-block;
+    font-size: 0.9rem;
 }
 .low { background-color: #d4edda; color: green; }
 .moderate { background-color: #fff3cd; color: orange; }
 .high { background-color: #f8d7da; color: red; }
 
-/* Legend styling */
+/* Legend */
 .legend {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    margin-top: 10px;
+    gap: 3px;
+    margin-top: 3px;
 }
 .legend-row {
     display: flex;
     justify-content: flex-start;
-    gap: 10px;
-    padding: 2px 6px;
+    gap: 8px;
+    padding: 3px 6px;
     border-radius: 4px;
     font-weight: bold;
-    min-width: 180px;
+    font-size: 0.85rem;
 }
 .legend-row.low { background-color: #d4edda; color: green; }
 .legend-row.moderate { background-color: #fff3cd; color: orange; }
 .legend-row.high { background-color: #f8d7da; color: red; }
-.legend-range { width: 60px; }
-.legend-text { flex: 1; }
+.legend-range { width: 55px; }
+.legend-title { display: block; margin-top: 3px; margin-bottom: 0; }
 
-/* Media queries for smaller screens */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-    .result-container {
-        margin-top: 20px;
-    }
+/* Input summary table */
+.input-summary {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 8px;
+}
+.input-summary th, .input-summary td {
+    text-align: left;
+    padding: 3px;
+    border-bottom: 1px solid #ccc;
+    font-size: 0.9rem;
+}
+.input-summary th { width: 140px; }
+
+/* Footer */
+.result-footer {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 0.85rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .form-container, .result-container { flex: 1 1 100%; }
+    h2 { font-size: 1.5rem; }
+    select, input, button { font-size: 0.9rem; width: 100%; }
+}
+@media (max-width: 480px) {
+    body { padding: 10px; }
+    h2 { font-size: 1.3rem; }
+    select, input, button { font-size: 0.85rem; width: 100%; }
+    .input-summary th, .input-summary td { font-size: 0.85rem; }
+    .badge { font-size: 0.8rem; }
 }
 </style>
 </head>
 <body>
+
 <h2>Indian Diabetes Risk Score (IDRS) - Self Assessment</h2>
 
 <div class="container">
@@ -148,9 +198,7 @@ button:hover {
             </select>
 
             <label>3. What is your waist circumference (CM)?</label>
-            <select id="waist">
-                <option value="">-- choose --</option>
-            </select>
+            <select id="waist"><option value="">-- choose --</option></select>
 
             <label>4. What is your level of physical activity?</label>
             <select id="activity">
@@ -172,7 +220,7 @@ button:hover {
         </form>
     </div>
 
-    <div class="result-container">
+    <div class="result-container" id="result-container">
         <div id="result" class="result-box"></div>
     </div>
 </div>
@@ -182,65 +230,55 @@ function updateWaistOptions() {
     const gender = document.getElementById("gender").value;
     const waist = document.getElementById("waist");
     waist.innerHTML = '<option value="">-- choose --</option>';
-    if (gender === "Male") {
-        waist.innerHTML += `
-            <option value="0"><90 cm</option>
-            <option value="10">90-99 cm</option>
-            <option value="20">≥100 cm</option>
-        `;
-    } else if (gender === "Female") {
-        waist.innerHTML += `
-            <option value="0"><80 cm</option>
-            <option value="10">80-89 cm</option>
-            <option value="20">≥90 cm</option>
-        `;
-    }
+    if (gender === "Male") { waist.innerHTML += `<option value="0"><90 cm</option><option value="10">90-99 cm</option><option value="20">≥100 cm</option>`; }
+    else if (gender === "Female") { waist.innerHTML += `<option value="0"><80 cm</option><option value="10">80-89 cm</option><option value="20">≥90 cm</option>`; }
 }
 
 function calculateRisk() {
-    const age = document.getElementById("age").value;
-    const waist = document.getElementById("waist").value;
-    const activity = document.getElementById("activity").value;
-    const family = document.getElementById("family").value;
+    const age = document.getElementById("age");
+    const waist = document.getElementById("waist");
+    const activity = document.getElementById("activity");
+    const family = document.getElementById("family");
 
-    if (!age || !waist || !activity || !family) {
-        alert("Please select all input parameters before submitting.");
-        return;
-    }
+    if (!age.value || !waist.value || !activity.value || !family.value) { alert("Please select all input parameters before submitting."); return; }
 
-    const total = parseInt(age) + parseInt(waist) + parseInt(activity) + parseInt(family);
+    const total = parseInt(age.value) + parseInt(waist.value) + parseInt(activity.value) + parseInt(family.value);
 
-    let riskLevel = "";
-    let riskClass = "";
-    if (total < 30) {
-        riskLevel = "Low Risk";
-        riskClass = "low";
-    } else if (total >= 30 && total <= 50) {
-        riskLevel = "Moderate Risk";
-        riskClass = "moderate";
-    } else if (total >= 60) {
-        riskLevel = "High Risk";
-        riskClass = "high";
-    }
+    let riskLevel="", riskClass="";
+    if(total<30){riskLevel="Low Risk";riskClass="low";}
+    else if(total>=30 && total<=50){riskLevel="Moderate Risk";riskClass="moderate";}
+    else if(total>=60){riskLevel="High Risk";riskClass="high";}
+
+    const resultContainer = document.getElementById("result-container");
+    resultContainer.style.display = "flex";
 
     const resultDiv = document.getElementById("result");
-    resultDiv.style.display = "block";
     resultDiv.innerHTML =
-        `<b>Thank you for completing the IDRS</b>\n\n` +
-        `Your Risk Level: <span class="badge ${riskClass}">${riskLevel}</span> (Score: ${total})\n\n` +
-        `<b>Risk Levels:</b>\n` +
-        `<div class="legend">
-            <div class="legend-row low"><span class="legend-range"><30</span><span class="legend-text">→ Low Risk</span></div>
-            <div class="legend-row moderate"><span class="legend-range">30-50</span><span class="legend-text">→ Moderate Risk</span></div>
-            <div class="legend-row high"><span class="legend-range">≥60</span><span class="legend-text">→ High Risk</span></div>
-        </div>\n\n` +
-        `<b>For further advice, please contact your doctor.</b>\n\n` +
-        `<div style="text-align:center;">***This program has been developed by <b>Dr. Vigneshwaran</b> Metabolic and Wellness Physician***<br>` +
-        `<b>Contact No:</b> +91-9345471232</div>`;
+        `<b>Entered Parameters:</b><br>
+        <table class="input-summary">
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Age</td><td>${age.options[age.selectedIndex].text}</td></tr>
+            <tr><td>Gender</td><td>${document.getElementById("gender").value}</td></tr>
+            <tr><td>Waist Circumference</td><td>${waist.options[waist.selectedIndex].text}</td></tr>
+            <tr><td>Physical Activity</td><td>${activity.options[activity.selectedIndex].text}</td></tr>
+            <tr><td>Family History</td><td>${family.options[family.selectedIndex].text}</td></tr>
+        </table>
+        <b>Risk Level:</b> <span class="badge ${riskClass}">${riskLevel}</span> (Score: ${total})<br>
+        <b class="legend-title">Risk Levels Legend:</b>
+        <div class="legend">
+            <div class="legend-row low"><span class="legend-range"><30</span> → Low Risk</div>
+            <div class="legend-row moderate"><span class="legend-range">30-50</span> → Moderate Risk</div>
+            <div class="legend-row high"><span class="legend-range">≥60</span> → High Risk</div>
+        </div>
+        <b>For further advice, please contact your doctor.</b>
+        <div class="result-footer">
+            This program has been developed by <b>Dr. Vigneshwaran</b>, Metabolic & Wellness Physician<br>
+            <b>Contact:</b> +91-9345471232
+        </div>`;
 }
 
-// Initialize waist options
 updateWaistOptions();
 </script>
+
 </body>
 </html>
